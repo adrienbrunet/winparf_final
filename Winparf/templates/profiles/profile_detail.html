@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+	
+	{% load i18n %}
+	
+	{% block content %}
+	<h3>{% trans "User profile for" %} {{ user.first_name }} {{ user.last_name }} </h3>
+	<table >
+	        <tr>
+	       <th align="left">{% trans "Username" %}</th>
+	      <td>{{profile.user}} </td>
+	    </tr>
+	
+	        <tr>
+	        <th align="left">{% trans "Name" %}</th>
+	      <td>{{profile.full_name}} </td>
+	    </tr>
+	
+        <tr>
+	        <th align="left">{% trans "Email" %}</th>
+	      <td>{{profile.email}} </td>
+	   </tr>
+	       
+	    <tr>
+	        <th align="left">{% trans "Address" %}</th>
+	     <td>{{profile.address}} </td>
+	    </tr>
+	     <th align="left">{% trans "Organization" %}</th>
+	      <td>{{profile.organization}} </td>
+	    </tr>
+	    </table>
+	<br>
+	<p>{% trans "Edit you user profile " %}<a href="/profiles/create/">{% trans "here" %}</a></p>
+	<p>{% trans "Reset your password " %}<a href="/accounts/password/reset/">{% trans "here" %}</a></p>
+	{% endblock %}

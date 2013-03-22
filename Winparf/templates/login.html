@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<div id='login' >
+	<form action="" method="post">
+	{% csrf_token %}
+	  {% if error %}
+	 <br><p id="error_pass">{{ error }}</p>
+  {% endif %}
+	{% if form.errors %}<p>Please correct the following fields:</p>{% endif %}
+	<div class="register_div">
+	        {% if form.username.errors %}<p class="error">{{ form.username.errors }}</p>{% endif %}
+	        <p><label for="username"{% if form.username.errors %} class="error"{% endif %}>Username:</label></p>
+	        <p>{{ form.username }}</p>
+	</div>
+	<div class="register_div">
+	        {% if form.password.errors %}<p class="error">{{ form.password.errors }}</p>{% endif %}
+	        <p><label for="password"{% if form.password.errors %} class="error"{% endif %}>Password:</label></p>
+	        <p>{{ form.password }}</p>
+	</div>
+	<p><input type="submit" alt="register" /></p>
+	</form>
+	<p>Forgot your password? <a href="/resetpassword/">Reset it!</a></p><br><br>
+</div>
+{% endblock %}

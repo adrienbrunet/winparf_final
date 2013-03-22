@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+<!-- Posts  -->
+<div class="ttitle">{{ title }}</div>
+<div id="list">
+
+    {% for post in posts.object_list %}
+        <div class="post">
+            <span class="title">{{ post.title }}</span><br />
+            by {{ post.creator }} | <span class="date">{{ post.created }}</span> <br /><br />
+            {{ post.body }} <br />
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Next/Prev page links
+    ...
+-->
+<a href="{% url forum.views.forum forum_pk %}">&lt;&lt; back to list of topics</a>
+<a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
+
+{% endblock %}
