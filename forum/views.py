@@ -4,7 +4,7 @@ from forum.models import Forum, Thread, Post
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.context_processors import csrf
 
 
@@ -31,7 +31,6 @@ def mk_paginator(request, items, num_items):
         items = paginator.page(paginator.num_pages)
     return items
 
-
 def forum(request, pk):
     """Listing of threads in a forum."""
     threads = Thread.objects.filter(forum=pk).order_by("-created")
@@ -45,7 +44,7 @@ def thread(request, pk):
     posts = Post.objects.filter(thread=pk).order_by("created")
     posts = mk_paginator(request, posts, 15)
     title = Thread.objects.get(pk=pk).title
-    t 	  = Thread.objects.get(pk=pk)
+    t     = Thread.objects.get(pk=pk)
     return render_to_response("forum/thread.html", add_csrf(request, posts=posts, pk=pk, title=t.title,
                                                        forum_pk=t.forum.pk))
 

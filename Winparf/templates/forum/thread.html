@@ -2,23 +2,38 @@
 
 {% block content %}
 	
+<form method="get" action="http://www.google.com/search">
+    <input type="text"   name="q" size="31" maxlength="255" value="" />
+    <input type="submit" value="Google Search" />
+    <input type="radio"  name="sitesearch" value="" /> The Web
+    <input type="radio"  name="sitesearch" value="mydomain.com" checked /> My Site<br />
+</form>
+
+
 <!-- Posts  -->
-<div class="ttitle">{{ title }}</div>
+<div class="ttitle"><h2>{{ title }}</h2></div>
 <div id="list">
 
+	<a href="{% url forum.views.forum forum_pk %}">&lt;&lt; back to list of topics</a> | 
+<a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
+
     {% for post in posts.object_list %}
-        <div class="post">
-            <span class="title">{{ post.title }}</span><br />
-            by {{ post.creator }} | <span class="date">{{ post.created }}</span> <br /><br />
-            {{ post.body }} <br />
-        </div>
+    	<table border="1" cellpadding="4" width="100%">
+    		<tr>
+        		<td><div class="post">
+		            <span class="title">{{ post.title }}</span><br>
+		            by {{ post.creator }} | <span class="date">{{ post.created }}</span> </td><td>
+		            {{ post.body }} </td>
+        		</div>
+    		</tr>
+		</table>
     {% endfor %}
 </div>
 
 <!-- Next/Prev page links
     ...
 -->
-<a href="{% url forum.views.forum forum_pk %}">&lt;&lt; back to list of topics</a>
+<a href="{% url forum.views.forum forum_pk %}">&lt;&lt; back to list of topics</a> | 
 <a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
 
 {% endblock %}
