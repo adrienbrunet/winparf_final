@@ -65,7 +65,12 @@ class ThreadAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     search_fields = ["title", "creator"]
     list_display = ["title", "thread", "creator", "created"]
+    class Media:
+                js = ('{% static "js/tiny_mce/tiny_mce.js" %}', '{% static "js/tiny_mce/textareas.js" %}',)
 
+
+# admin.site.unregister(Post)
 admin.site.register(Forum, ForumAdmin)
 admin.site.register(Thread, ThreadAdmin)
+
 admin.site.register(Post, PostAdmin)

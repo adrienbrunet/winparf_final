@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     (r"^post/(new_thread|reply)/(\d+)/$", "forum.views.post"),
     (r"^reply/(\d+)/$", "forum.views.reply"),
     (r"^new_thread/(\d+)/$", "forum.views.new_thread"),
+    (r'^tinymce/', include('tinymce.urls')),
   )
 
 
