@@ -23,7 +23,7 @@
         		<td><div class="post">
 		            <span class="title">{{ post.title }}</span><br>
 		            by {{ post.creator }} | <span class="date">{{ post.created }}</span> </td><td id="">
-		            {{ post.body }} </td>
+		            {{ post.body|safe }} </td>
         		</div>
     		</tr>
 		</table>
