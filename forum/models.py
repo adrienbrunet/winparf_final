@@ -72,5 +72,4 @@ class PostAdmin(admin.ModelAdmin):
 # admin.site.unregister(Post)
 admin.site.register(Forum, ForumAdmin)
 admin.site.register(Thread, ThreadAdmin)
-
 admin.site.register(Post, PostAdmin)

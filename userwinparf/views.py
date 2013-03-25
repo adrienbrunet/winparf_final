@@ -9,7 +9,7 @@ from userwinparf.models import Userwinparf
 
 def UserwinparfRegistration(request):
         if request.user.is_authenticated():
-                return HttpResponseRedirect('/profile/')
+                return HttpResponseRedirect('/profiles/')
         if request.method == 'POST':
                 form = RegistrationForm(request.POST)
                 if form.is_valid():
@@ -17,7 +17,7 @@ def UserwinparfRegistration(request):
                         user.save()
                         userwinparf = Userwinparf(user=user, name=form.cleaned_data['name'])
                         userwinparf.save()
-                        return HttpResponseRedirect('/profile/')
+                        return HttpResponseRedirect('/profiles/')
                 else:
                         return render_to_response('register.html', {'form': form}, context_instance=RequestContext(request))
         else:
@@ -28,7 +28,7 @@ def UserwinparfRegistration(request):
 
 def LoginRequest(request):
         if request.user.is_authenticated():
-                return HttpResponseRedirect('/profile/')
+                return HttpResponseRedirect('/profiles/')
         if request.method == 'POST':
                 form = LoginForm(request.POST)
                 if form.is_valid():
@@ -37,7 +37,7 @@ def LoginRequest(request):
                         userwinparf = authenticate(username=username, password=password)
                         if userwinparf is not None:
                                 login(request, userwinparf)
-                                return HttpResponseRedirect('/profile/')
+                                return HttpResponseRedirect('/profiles/')
                         else:
                                 return render_to_response('login.html', {'form': form, 'error':'Invalid username and/or password'}, context_instance=RequestContext(request))
                 else:
@@ -58,5 +58,5 @@ def profile(request):
                 return HttpResponseRedirect('/login/')
         userwinparf = request.user.get_profile
         context = { 'userwinparf' : userwinparf}
-        return render_to_response('profile.html', context, context_instance=RequestContext(request))
+        return render_to_response('profile_detail.html', context, context_instance=RequestContext(request))
 
