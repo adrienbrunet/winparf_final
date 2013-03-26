@@ -10,8 +10,22 @@ from django.core.context_processors import csrf
 
 def main(request):
     """Main listing."""
+     #---------------
+    errors = []
+    search = False
+    if 'q' in request.GET:
+        q = request.GET['q']
+        if not q:
+            errors.append('Enter a search term.')
+        elif len(q) > 20:
+            errors.append('Please enter at most 20 characters.')
+        else:
+            thread = Thread.objects.filter(title__icontains=q)
+            search = True
+            return render_to_response('forum/list.html', {'thread': thread, 'query': q, 'search': search, 'errors': errors})
+    #------------------
     forums = Forum.objects.all()
-    return render_to_response("forum/list.html", dict(forums=forums, user=request.user))
+    return render_to_response("forum/list.html", dict(forums=forums, user=request.user, errors=errors, search=search))
 
 
 def add_csrf(request, ** kwargs):
