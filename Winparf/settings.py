@@ -148,6 +148,7 @@ INSTALLED_APPS = (
     'forum',
     'tinymce',
     'haystack',
+    'fts',
 
 
 )

@@ -1,0 +1,38 @@
+[
+  {
+    "pk": 1,
+    "model": "auth.user",
+    "fields": {
+      "username": "winparf",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": true,
+      "is_staff": true,
+      "last_login": "2013-03-26T00:29:19.000Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$10000$0nzgoOUljKMr$Fg9/TEpIGkQgHVCN05cAfieW/DvG5eOMSHnPlSxwZ8E=",
+      "email": "abrunet@centrale-marseille.fr",
+      "date_joined": "2013-03-22T10:33:17.328Z"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "auth.user",
+    "fields": {
+      "username": "usernamee",
+      "first_name": "",
+      "last_name": "",
+      "is_active": true,
+      "is_superuser": false,
+      "is_staff": false,
+      "last_login": "2013-03-25T21:24:37.225Z",
+      "groups": [],
+      "user_permissions": [],
+      "password": "pbkdf2_sha256$10000$ekRfcUgW1sLc$T2WVnmG8Pb2bwHxVXHqWdebf0BdZW/MLtx3h5Qlqc8E=",
+      "email": "user@a.fr",
+      "date_joined": "2013-03-25T21:23:33.192Z"
+    }
+  }
+]
