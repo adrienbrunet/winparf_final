@@ -27,7 +27,32 @@
 
  | <a href="{% url forum.views.post 'new_thread' pk %}">Start New Topic</a>
 
+<div>
+    <h2>Most seen posts</h2>
+<table  border="1px" bordercolor=white cellpadding="4" width="100%">
+    <tr class='evenodd'>
+        <td style="vertical-align:top; width:25%;"><b>Topics</b></td>
+        <td><b>Views</b></td>
+        <td><b>Replies</b></td>
+        <td><b>Last post</b></td>
+    </tr>
 
+    {% for thread in threads_recommanded.object_list %}
+    <tr class="{% cycle 'odd' 'even' %}">
+        <td style="vertical-align:top; width:25%;" {% if forloop.last %}class="last"{% endif %}>
+        <a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a>
+        </td>
+        <td {% if forloop.last %}class="last"{% endif %}> {{ thread.nbviews }}</td>
+        <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
+        <td {% if forloop.last %}class="last"{% endif %}>
+            {{ thread.last_post.short|linebreaksbr }}</td>
+    </tr>
+{# addoneview({{ thread.id }}) #}
+    {% endfor %}
+</table>
+</div>
+
+<h2>Posts</h2>
 
 <div>
 <table  border="1px" bordercolor=white cellpadding="4" width="100%">
@@ -71,6 +96,8 @@
     </span>
 </div>
 {% endif %}
+
+
 
 
 

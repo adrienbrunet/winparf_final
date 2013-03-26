@@ -64,14 +64,15 @@ def forum(request, pk):
             thread = Thread.objects.filter(title__icontains=q)
             nb_thread = len(list(thread))
             thread = mk_paginator(request, thread, 15)
-            
             search = True
             return render_to_response('forum/search.html', add_csrf(request, thread=thread, query=q, search=search, errors=errors, nb_thread=nb_thread))
     #------------------
     threads = Thread.objects.filter(forum=pk).order_by("-created")
     threads = mk_paginator(request, threads, 20)
+    threads_recommanded = Thread.objects.filter(forum=pk).order_by("-nbviews")
+    threads_recommanded = mk_paginator(request, threads_recommanded, 5)
 
-    return render_to_response("forum/forum.html", add_csrf(request, threads=threads, pk=pk, errors=errors, search=search))
+    return render_to_response("forum/forum.html", add_csrf(request, threads=threads, pk=pk, errors=errors, search=search, threads_recommanded=threads_recommanded))
 
 
 def thread(request, pk):
