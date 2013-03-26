@@ -70,11 +70,14 @@ def forum(request, pk):
     #------------------
     threads = Thread.objects.filter(forum=pk).order_by("-created")
     threads = mk_paginator(request, threads, 20)
+
     return render_to_response("forum/forum.html", add_csrf(request, threads=threads, pk=pk, errors=errors, search=search))
 
 
 def thread(request, pk):
-
+    t=Thread.objects.get(pk=pk)
+    t.nbviews    = t.nbviews + 1
+    t.save()
     """Listing of posts in a thread."""
     posts = Post.objects.filter(thread=pk).order_by("created")
     posts = mk_paginator(request, posts, 15)
@@ -128,3 +131,9 @@ def reply(request, pk):
 #             thread = mk_paginator(request, thread, 15)
 #             return render_to_response('forum/search_results.html', add_csrf(request, thread=thread, query=q))
 #     return render_to_response('forum/search_form.html', {'errors': errors})
+
+
+def addoneview(request, thread_id):
+    print 'its working biatch --> '+str(thread_id)
+    return HttpResponse('swarkescuiop') 
+    # Response('qzrljghqsgrmkjb')

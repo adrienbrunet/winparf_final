@@ -28,12 +28,14 @@
         <table border="1px" bordercolor=white cellpadding="4" width="100%">
             <tr class='evenodd'>
                 <td style="width:25%;"><b>Topics</b></td>
+                <td><b>Views</b></td>
                 <td><b>Replies</b></td>
                 <td><b>Last post</b></td>
             </tr>
         {% for thread in thread %}
         <tr class="{% cycle 'odd' 'even' %}">
             <td style="vertical-align:top; width:25%;"><p><a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a></p></td>
+            <td {% if forloop.last %}class="last"{% endif %}>{{ thread.nbviews }}</td>
             <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
             <td {% if forloop.last %}class="last"{% endif %}>
             {{ thread.last_post.short|linebreaksbr }}</td>

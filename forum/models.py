@@ -25,6 +25,7 @@ class Thread(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(User, blank=True, null=True)
     forum = models.ForeignKey(Forum)
+    nbviews = models.IntegerField(default=0)
 
     def __unicode__(self):
         return unicode(self.creator) + " - " + self.title
@@ -40,11 +41,12 @@ class Thread(models.Model):
             return self.post_set.order_by("created")[0]
 
 class Post(models.Model):
-    title = models.CharField(max_length=60)
+    title   = models.CharField(max_length=60)
     created = models.DateTimeField(auto_now_add=True)
     creator = models.ForeignKey(User, blank=True, null=True)
-    thread = models.ForeignKey(Thread)
-    body = models.TextField(max_length=10000)
+    thread  = models.ForeignKey(Thread)
+    body    = models.TextField(max_length=10000)
+    
 
     def __unicode__(self):
         return u"%s - %s - %s" % (self.creator, self.thread, self.title)
