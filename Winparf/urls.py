@@ -19,14 +19,14 @@ urlpatterns = patterns('',
     (r'^resetpassword/$', 'django.contrib.auth.views.password_reset'),
     (r'^reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', 'django.contrib.auth.views.password_reset_confirm'),
     (r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete'),
-    (r"^forum/(\d+)/$", "forum.views.forum"),
     (r"^forum/$", "forum.views.main"),
+    (r"^forum/(\d+)/$", "forum.views.forum"),
     (r"^thread/(\d+)/$", "forum.views.thread"),
     (r"^post/(new_thread|reply)/(\d+)/$", "forum.views.post"),
     (r"^reply/(\d+)/$", "forum.views.reply"),
     (r"^new_thread/(\d+)/$", "forum.views.new_thread"),
     (r'^tinymce/', include('tinymce.urls')),
-    (r'^search/$', "forum.views.search"),
+    (r'^search/', "forum.views.main"),
   )
 
 

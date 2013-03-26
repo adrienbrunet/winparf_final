@@ -4,7 +4,7 @@
 
 {% block content %}
 
-    <form action="" method="get">
+    <form action="/search" method="get">
     <input id="inputsearch" type="text" name="q">
     <input id="inputsearch" type="submit" value="Search">
     </form>
@@ -18,7 +18,9 @@
 {% if search %}    <p>You searched for: <strong>{{ query }}</strong></p>
 
 {% if thread %}
-    <p>Found {{ thread|length }} thread{{ thread|pluralize }}.</p>
+    <p>Found {{ nb_thread }} thread{{ thread|pluralize }}.</p>
+    <br>
+    <a href='../'> Back to the forum list</a>
     <div id="list">
         <table border="1px" bordercolor=white cellpadding="4" width="100%">
             <b><tr class='evenodd'>
@@ -39,11 +41,32 @@
 {% else %}
     <p>No post matched your search criteria.</p>
 {% endif %}
+<!-- Next/Prev page links  -->
+{% if thread and thread.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if thread.has_previous %}
+            <a href= "?page={{ threads.previous_page_number }}">previous &lt;&lt; </a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ thread.number }} of {{ thread.paginator.num_pages }}
+        </span>
+
+        {% if thread.has_next %}
+            <a href="?page={{ thread.next_page_number }}"> &gt;&gt; next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+
 {% endif %}
 <!-- end of results-->
 <br>
 
 {% if not search %}
+
 <!-- Forums  -->
 <div id="list">
 <table border="1px" bordercolor=white cellpadding="4" width="100%">

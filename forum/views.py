@@ -21,8 +21,10 @@ def main(request):
             errors.append('Please enter at most 20 characters.')
         else:
             thread = Thread.objects.filter(title__icontains=q)
+            nb_thread = len(list(thread))
+            thread = mk_paginator(request, thread, 15)
             search = True
-            return render_to_response('forum/list.html', {'thread': thread, 'query': q, 'search': search, 'errors': errors})
+            return render_to_response('forum/search.html', add_csrf(request, thread=thread, query=q, search=search, errors=errors, nb_thread=nb_thread))
     #------------------
     forums = Forum.objects.all()
     return render_to_response("forum/list.html", dict(forums=forums, user=request.user, errors=errors, search=search))
@@ -60,8 +62,11 @@ def forum(request, pk):
             errors.append('Please enter at most 20 characters.')
         else:
             thread = Thread.objects.filter(title__icontains=q)
+            nb_thread = len(list(thread))
+            thread = mk_paginator(request, thread, 15)
+            
             search = True
-            return render_to_response('forum/forum.html', {'thread': thread, 'query': q, 'search': search, 'errors': errors})
+            return render_to_response('forum/search.html', add_csrf(request, thread=thread, query=q, search=search, errors=errors, nb_thread=nb_thread))
     #------------------
     threads = Thread.objects.filter(forum=pk).order_by("-created")
     threads = mk_paginator(request, threads, 20)
@@ -109,16 +114,17 @@ def reply(request, pk):
     return HttpResponseRedirect(reverse("forum.views.thread", args=[pk]) + "?page=last")
 
 
-# -------------------------------------------
-def search(request):
-    errors = []
-    if 'q' in request.GET:
-        q = request.GET['q']
-        if not q:
-            errors.append('Enter a search term.')
-        elif len(q) > 20:
-            errors.append('Please enter at most 20 characters.')
-        else:
-            thread = Thread.objects.filter(title__icontains=q)
-            return render_to_response('forum/search_results.html', {'thread': thread, 'query': q})
-    return render_to_response('forum/search_form.html', {'errors': errors})
+# # -------------------------------------------
+# def search(request):
+#     errors = []
+#     if 'q' in request.GET:
+#         q = request.GET['q']
+#         if not q:
+#             errors.append('Enter a search term.')
+#         elif len(q) > 20:
+#             errors.append('Please enter at most 20 characters.')
+#         else:
+#             thread = Thread.objects.filter(title__icontains=q)
+#             thread = mk_paginator(request, thread, 15)
+#             return render_to_response('forum/search_results.html', add_csrf(request, thread=thread, query=q))
+#     return render_to_response('forum/search_form.html', {'errors': errors})
