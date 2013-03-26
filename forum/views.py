@@ -78,3 +78,20 @@ def reply(request, pk):
         post = Post.objects.create(thread=thread, title=p["subject"], body=p["body"],
             creator=request.user)
     return HttpResponseRedirect(reverse("forum.views.thread", args=[pk]) + "?page=last")
+
+
+
+# -------------------------------------------
+
+def search_form(request):
+    return render_to_response('forum/search_form.html')
+
+
+def search(request):
+    if 'q' in request.GET and request.GET['q']:
+        q = request.GET['q']
+        thread = Thread.objects.filter(title__icontains=q)
+        
+        return render_to_response('forum/search_results.html',{'thread': thread, 'query': q})
+    else:
+        return HttpResponse('Please submit a search term.')
