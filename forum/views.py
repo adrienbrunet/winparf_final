@@ -19,6 +19,7 @@ def add_csrf(request, ** kwargs):
     d.update(csrf(request))
     return d
 
+
 def mk_paginator(request, items, num_items):
     """Create and return a paginator."""
     paginator = Paginator(items, num_items)
@@ -30,6 +31,7 @@ def mk_paginator(request, items, num_items):
     except (InvalidPage, EmptyPage):
         items = paginator.page(paginator.num_pages)
     return items
+
 
 def forum(request, pk):
     """Listing of threads in a forum."""
@@ -45,8 +47,7 @@ def thread(request, pk):
     posts = mk_paginator(request, posts, 15)
     title = Thread.objects.get(pk=pk).title
     t     = Thread.objects.get(pk=pk)
-    return render_to_response("forum/thread.html", add_csrf(request, posts=posts, pk=pk, title=t.title,
-                                                       forum_pk=t.forum.pk))
+    return render_to_response("forum/thread.html", add_csrf(request, posts=posts, pk=pk, title=t.title, forum_pk=t.forum.pk))
 
 
 def post(request, ptype, pk):
@@ -58,8 +59,8 @@ def post(request, ptype, pk):
     elif ptype == "reply":
         title = "Reply"
         subject = "Re: " + Thread.objects.get(pk=pk).title
-    return render_to_response("forum/post.html", add_csrf(request, subject=subject,
-        action=action, title=title))
+    return render_to_response("forum/post.html", add_csrf(request, subject=subject, action=action, title=title))
+
 
 def new_thread(request, pk):
     """Start a new thread."""
@@ -70,28 +71,26 @@ def new_thread(request, pk):
         Post.objects.create(thread=thread, title=p["subject"], body=p["body"], creator=request.user)
     return HttpResponseRedirect(reverse("forum.views.forum", args=[pk]))
 
+
 def reply(request, pk):
     """Reply to a thread."""
     p = request.POST
     if p["body"]:
         thread = Thread.objects.get(pk=pk)
-        post = Post.objects.create(thread=thread, title=p["subject"], body=p["body"],
-            creator=request.user)
+        post = Post.objects.create(thread=thread, title=p["subject"], body=p["body"], creator=request.user)
     return HttpResponseRedirect(reverse("forum.views.thread", args=[pk]) + "?page=last")
 
 
-
 # -------------------------------------------
-
-def search_form(request):
-    return render_to_response('forum/search_form.html')
-
-
 def search(request):
-    if 'q' in request.GET and request.GET['q']:
+    errors = []
+    if 'q' in request.GET:
         q = request.GET['q']
-        thread = Thread.objects.filter(title__icontains=q)
-        
-        return render_to_response('forum/search_results.html',{'thread': thread, 'query': q})
-    else:
-        return HttpResponse('Please submit a search term.')
+        if not q:
+            errors.append('Enter a search term.')
+        elif len(q) > 20:
+            errors.append('Please enter at most 20 characters.')
+        else:
+            thread = Thread.objects.filter(title__icontains=q)
+            return render_to_response('forum/search_results.html', {'thread': thread, 'query': q})
+    return render_to_response('forum/search_form.html', {'errors': errors})

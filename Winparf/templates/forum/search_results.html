@@ -4,7 +4,7 @@
     <p>Found {{ thread|length }} thread{{ thread|pluralize }}.</p>
     <ul>
         {% for thread in thread %}
-        <li>{# <a href="{% url forum.views.forum forum.pk %}"> #}{{ thread.title }}{# </a> #}</li>
+        <li><a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a></li>
         {% endfor %}
     </ul>
 {% else %}

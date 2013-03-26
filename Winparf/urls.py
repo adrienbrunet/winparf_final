@@ -26,7 +26,6 @@ urlpatterns = patterns('',
     (r"^reply/(\d+)/$", "forum.views.reply"),
     (r"^new_thread/(\d+)/$", "forum.views.new_thread"),
     (r'^tinymce/', include('tinymce.urls')),
-    (r'^search-form/$', "forum.views.search_form"),
     (r'^search/$', "forum.views.search"),
   )
 
