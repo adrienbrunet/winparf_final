@@ -24,9 +24,26 @@
     {% endfor %}
 </div>
 
-<!-- Next/Prev page links
-    ...
--->
+
+<!-- Next/Prev page links -->
+{% if posts.object_list and posts.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href= "?page={{ posts.previous_page_number }}">previous &lt;&lt; </a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}"> &gt;&gt; next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
 <a href="{% url forum.views.forum forum_pk %}">&lt;&lt; back to list of topics</a> | 
 <a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
 
