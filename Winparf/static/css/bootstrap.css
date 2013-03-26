@@ -7,6 +7,18 @@
  *
  * Designed and built with all the love in the world @twitter by @mdo and @fat.
  */
+.even {background-color: #e5e5e5;}
+.odd {background-color: #ccc;}
+.evenodd{background-color: #bbb;}
+
+a{
+  text-decoration: none;
+  color:black;
+}
+
+.clear{
+  clear:both;
+}
 
 .clearfix {
   *zoom: 1;
@@ -249,13 +261,11 @@ body {
 }
 
 a {
-  color: #0088cc;
   text-decoration: none;
 }
 
 a:hover,
 a:focus {
-  color: #005580;
   text-decoration: underline;
 }
 
@@ -2016,7 +2026,7 @@ table {
   max-width: 100%;
   background-color: transparent;
   border-collapse: collapse;
-  border-spacing: 0;
+  border-spacing: 2;
 }
 
 .table {

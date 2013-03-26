@@ -1,20 +1,18 @@
 {% extends "base.html" %}
 
 
+
 {% block content %}
-    
-<!-- Search Bar -->
- {% if errors %}
-        <ul>
-            {% for error in errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+
     <form action="" method="get">
-        <input type="text" name="q">
-        <input type="submit" value="Search">
+    <input id="inputsearch" type="text" name="q">
+    <input id="inputsearch" type="submit" value="Search">
     </form>
+{% if errors %}
+    {% for error in errors %}
+        {{ error }}
+    {% endfor %}
+{% endif %}
 
 <!-- Results of search bar -->
 {% if search %}    <p>You searched for: <strong>{{ query }}</strong></p>
@@ -22,14 +20,14 @@
 {% if thread %}
     <p>Found {{ thread|length }} thread{{ thread|pluralize }}.</p>
     <div id="list">
-        <table border="1" cellpadding="4" width="100%">
-            <tr>
+        <table border="1px" bordercolor=white cellpadding="4" width="100%">
+            <b><tr class='evenodd'>
                 <td>Topics</td>
                 <td>Replies</td>
                 <td>Last post</td>
-            </tr>
+            </tr></b>
         {% for thread in thread %}
-        <tr>
+        <tr class="{% cycle 'odd' 'even' %}">
             <td><a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a></td>
             <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
             <td {% if forloop.last %}class="last"{% endif %}>
@@ -43,19 +41,20 @@
 {% endif %}
 {% endif %}
 <!-- end of results-->
+<br>
 
 {% if not search %}
 <!-- Forums  -->
 <div id="list">
-<table border="1" cellpadding="4" width="100%">
-    <tr>
-        <td>Choose a dedicated forum</td>
-        <td>Posts</td>
-        <td>Last post</td>
+<table border="1px" bordercolor=white cellpadding="4" width="100%">
+    <tr class='evenodd'>
+        <td><b>Choose a dedicated forum</b></td>
+        <td><b>Posts</b></td>
+        <td><b>Last post</b></td>
     </tr>
 
     {% for forum in forums %}
-    <tr>
+    <tr class="{% cycle 'odd' 'even' %}">
         <td {% if forloop.last %}class="last"{% endif %}>
         <div class="title"> <a href="{% url forum.views.forum forum.pk %}">{{ forum.title }}</a>
             </div></td>

@@ -10,13 +10,15 @@
 <a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
 
     {% for post in posts.object_list %}
-    	<table border="1" cellpadding="4" width="100%">
-    		<tr>
-        		<td><div class="post">
-		            <span class="title">{{ post.title }}</span><br>
-		            by {{ post.creator }} | <span class="date">{{ post.created }}</span> </td><td id="">
-		            {{ post.body|safe }} </td>
-        		</div>
+    	<table border="1px" bordercolor=white cellpadding="4" width="100%">
+    		<tr style="border-collapse : collapse; border-spacing : 2px;" class="{% cycle 'odd' 'even' %}">
+        		<td style="width:25%; vertical-align:top; border-right:1px;">
+		            <b>{{ post.title }}</b><br>
+		            <i style="color:grey;">by {{ post.creator }} | {{ post.created }}<i>
+                </td>
+                <td style="padding-left:20px;">
+		            {{ post.body|safe }} 
+                </td>
     		</tr>
 		</table>
     {% endfor %}

@@ -4,70 +4,68 @@
 {% block content %}
     
 
-
-<!-- Threads  -->
-<a id="back_forum" class="buttont" href='../'> Back to the forum list</a>
-{% if not search %}
- | <a id="new_topic" class="buttont" href=
-"{% url forum.views.post 'new_thread' pk %}">Start New Topic</a>
-<br />
-{% endif %}
-<br />
+<div id="searchbar">
 <!-- Search Bar -->
- {% if errors %}
-        <ul>
-            {% for error in errors %}
-            <li>{{ error }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+
     <form action="" method="get">
         <input type="text" name="q">
         <input type="submit" value="Search">
     </form>
-
+</div>
+ {% if errors %}
+            {% for error in errors %}
+            {{ error }}
+            {% endfor %}
+ {% endif %}
 <!-- Results of search bar -->
 {% if search %}    <p>You searched for: <strong>{{ query }}</strong></p>
 
 {% if thread %}
     <p>Found {{ thread|length }} thread{{ thread|pluralize }}.</p>
-    <div id="list">
-        <table border="1" cellpadding="4" width="100%">
-            <tr>
-                <td>Topics</td>
-                <td>Replies</td>
-                <td>Last post</td>
+        <table border="1px" bordercolor=white cellpadding="4" width="100%">
+            <tr class='evenodd'>
+                <td style="width:25%;"><b>Topics</b></td>
+                <td><b>Replies</b></td>
+                <td><b>Last post</b></td>
             </tr>
         {% for thread in thread %}
-        <tr>
-            <td><a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a></td>
+        <tr class="{% cycle 'odd' 'even' %}">
+            <td style="vertical-align:top; width:25%;"><p><a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a></p></td>
             <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
             <td {% if forloop.last %}class="last"{% endif %}>
             {{ thread.last_post.short|linebreaksbr }}</td>
         </tr>
         {% endfor %}
     </table>
-</div>
 {% else %}
     <p>No post matched your search criteria.</p>
 {% endif %}
 {% endif %}
 <!-- end of results-->
 {% if not search %}
+<br>
 
-<div id="list">
-<table border="1" cellpadding="4" width="100%">
-    <tr>
-        <td>Topics</td>
-        <td>Replies</td>
-        <td>Last post</td>
+
+<!-- Threads  -->
+<a href='../'> Back to the forum list</a>
+{% if not search %}
+ | <a href="{% url forum.views.post 'new_thread' pk %}">Start New Topic</a>
+{% endif %}
+
+
+<div>
+<table  border="1px" bordercolor=white cellpadding="4" width="100%">
+    <tr class='evenodd'>
+        <td style="vertical-align:top; width:25%;"><b>Topics</b></td>
+        <td><b>Replies</b></td>
+        <td><b>Last post</b></td>
     </tr>
 
     {% for thread in threads.object_list %}
-    <tr>
-        <td {% if forloop.last %}class="last"{% endif %}>
-        <div class="title"> <a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a>
-            </div></td>
+    <tr class="{% cycle 'odd' 'even' %}">
+        <td style="vertical-align:top; width:25%;"{% if forloop.last %}class="last"{% endif %}>
+        <a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a>
+        </td>
         <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
         <td {% if forloop.last %}class="last"{% endif %}>
             {{ thread.last_post.short|linebreaksbr }}</td>
