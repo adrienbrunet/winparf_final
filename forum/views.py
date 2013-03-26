@@ -35,9 +35,23 @@ def mk_paginator(request, items, num_items):
 
 def forum(request, pk):
     """Listing of threads in a forum."""
+    #---------------
+    errors = []
+    search = False
+    if 'q' in request.GET:
+        q = request.GET['q']
+        if not q:
+            errors.append('Enter a search term.')
+        elif len(q) > 20:
+            errors.append('Please enter at most 20 characters.')
+        else:
+            thread = Thread.objects.filter(title__icontains=q)
+            search = True
+            return render_to_response('forum/forum.html', {'thread': thread, 'query': q, 'search': search, 'errors': errors})
+    #------------------
     threads = Thread.objects.filter(forum=pk).order_by("-created")
     threads = mk_paginator(request, threads, 20)
-    return render_to_response("forum/forum.html", add_csrf(request, threads=threads, pk=pk))
+    return render_to_response("forum/forum.html", add_csrf(request, threads=threads, pk=pk, errors=errors, search=search))
 
 
 def thread(request, pk):
