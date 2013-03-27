@@ -1,0 +1,265 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>tinymce.widgets &mdash; Winparf 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Winparf 1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Winparf 1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for tinymce.widgets</h1><div class="highlight"><pre>
+<span class="c"># Copyright (c) 2008 Joost Cassee</span>
+<span class="c"># Licensed under the terms of the MIT License (see LICENSE.txt)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This TinyMCE widget was copied and extended from this code by John D&#39;Agostino:</span>
+<span class="sd">http://code.djangoproject.com/wiki/CustomWidgetsTinyMCE</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">django</span> <span class="kn">import</span> <span class="n">forms</span>
+<span class="kn">from</span> <span class="nn">django.conf</span> <span class="kn">import</span> <span class="n">settings</span>
+<span class="kn">from</span> <span class="nn">django.contrib.admin</span> <span class="kn">import</span> <span class="n">widgets</span> <span class="k">as</span> <span class="n">admin_widgets</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="kn">import</span> <span class="n">reverse</span>
+<span class="kn">from</span> <span class="nn">django.forms.widgets</span> <span class="kn">import</span> <span class="n">flatatt</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">django.utils.encoding</span> <span class="kn">import</span> <span class="n">smart_unicode</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">django.forms.util</span> <span class="kn">import</span> <span class="n">smart_unicode</span>
+<span class="kn">from</span> <span class="nn">django.utils.html</span> <span class="kn">import</span> <span class="n">escape</span>
+<span class="kn">from</span> <span class="nn">django.utils</span> <span class="kn">import</span> <span class="n">simplejson</span>
+<span class="kn">from</span> <span class="nn">django.utils.datastructures</span> <span class="kn">import</span> <span class="n">SortedDict</span>
+<span class="kn">from</span> <span class="nn">django.utils.safestring</span> <span class="kn">import</span> <span class="n">mark_safe</span>
+<span class="kn">from</span> <span class="nn">django.utils.translation</span> <span class="kn">import</span> <span class="n">get_language</span><span class="p">,</span> <span class="n">ugettext</span> <span class="k">as</span> <span class="n">_</span>
+<span class="kn">import</span> <span class="nn">tinymce.settings</span>
+
+
+<div class="viewcode-block" id="TinyMCE"><a class="viewcode-back" href="../../index.html#tinymce.widgets.TinyMCE">[docs]</a><span class="k">class</span> <span class="nc">TinyMCE</span><span class="p">(</span><span class="n">forms</span><span class="o">.</span><span class="n">Textarea</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    TinyMCE widget. Set settings.TINYMCE_JS_URL to set the location of the</span>
+<span class="sd">    javascript file. Default is &quot;MEDIA_URL + &#39;js/tiny_mce/tiny_mce.js&#39;&quot;.</span>
+<span class="sd">    You can customize the configuration with the mce_attrs argument to the</span>
+<span class="sd">    constructor.</span>
+
+<span class="sd">    In addition to the standard configuration you can set the</span>
+<span class="sd">    &#39;content_language&#39; parameter. It takes the value of the &#39;language&#39;</span>
+<span class="sd">    parameter by default.</span>
+
+<span class="sd">    In addition to the default settings from settings.TINYMCE_DEFAULT_CONFIG,</span>
+<span class="sd">    this widget sets the &#39;language&#39;, &#39;directionality&#39; and</span>
+<span class="sd">    &#39;spellchecker_languages&#39; parameters by default. The first is derived from</span>
+<span class="sd">    the current Django language, the others from the &#39;content_language&#39;</span>
+<span class="sd">    parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content_language</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mce_attrs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TinyMCE</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mce_attrs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">mce_attrs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mce_attrs</span> <span class="o">=</span> <span class="n">mce_attrs</span>
+        <span class="k">if</span> <span class="n">content_language</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">content_language</span> <span class="o">=</span> <span class="n">mce_attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;language&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">content_language</span> <span class="o">=</span> <span class="n">content_language</span>
+
+    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="n">value</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">smart_unicode</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">final_attrs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_attrs</span><span class="p">(</span><span class="n">attrs</span><span class="p">)</span>
+        <span class="n">final_attrs</span><span class="p">[</span><span class="s">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">assert</span> <span class="s">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">final_attrs</span><span class="p">,</span> <span class="s">&quot;TinyMCE widget attributes must contain &#39;id&#39;&quot;</span>
+
+        <span class="n">mce_config</span> <span class="o">=</span> <span class="n">tinymce</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">DEFAULT_CONFIG</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">mce_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">get_language_config</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">content_language</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">tinymce</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">USE_FILEBROWSER</span><span class="p">:</span>
+            <span class="n">mce_config</span><span class="p">[</span><span class="s">&#39;file_browser_callback&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;djangoFileBrowser&quot;</span>
+        <span class="n">mce_config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mce_attrs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s">&#39;mode&#39;</span> <span class="ow">in</span> <span class="n">mce_config</span><span class="p">:</span>
+            <span class="n">mce_config</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;exact&#39;</span>
+        <span class="k">if</span> <span class="n">mce_config</span><span class="p">[</span><span class="s">&#39;mode&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;exact&#39;</span><span class="p">:</span>
+            <span class="n">mce_config</span><span class="p">[</span><span class="s">&#39;elements&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">final_attrs</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">mce_config</span><span class="p">[</span><span class="s">&#39;strict_loading_mode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        
+        <span class="c"># Fix for js functions</span>
+        <span class="n">js_functions</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s">&#39;paste_preprocess&#39;</span><span class="p">,</span><span class="s">&#39;paste_postprocess&#39;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">mce_config</span><span class="p">:</span>
+               <span class="n">js_functions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">mce_config</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+               <span class="k">del</span> <span class="n">mce_config</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">mce_json</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">mce_config</span><span class="p">)</span>
+
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">final_attrs</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;__prefix__&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pos</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">mce_json</span> <span class="o">=</span> <span class="n">mce_json</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">u&#39;&quot;</span><span class="si">%s</span><span class="s">&quot;&#39;</span> <span class="o">%</span> <span class="n">final_attrs</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span> <span class="s">u&#39;elements&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">js_functions</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="n">mce_json</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&#39;}&#39;</span><span class="p">)</span>
+            <span class="n">mce_json</span> <span class="o">=</span> <span class="n">mce_json</span><span class="p">[:</span><span class="n">index</span><span class="p">]</span><span class="o">+</span><span class="s">&#39;, &#39;</span><span class="o">+</span><span class="n">k</span><span class="o">+</span><span class="s">&#39;:&#39;</span><span class="o">+</span><span class="n">js_functions</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">+</span><span class="n">mce_json</span><span class="p">[</span><span class="n">index</span><span class="p">:]</span>
+            
+
+        <span class="n">html</span> <span class="o">=</span> <span class="p">[</span><span class="s">u&#39;&lt;textarea</span><span class="si">%s</span><span class="s">&gt;</span><span class="si">%s</span><span class="s">&lt;/textarea&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">flatatt</span><span class="p">(</span><span class="n">final_attrs</span><span class="p">),</span> <span class="n">escape</span><span class="p">(</span><span class="n">value</span><span class="p">))]</span>
+        <span class="k">if</span> <span class="n">tinymce</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">USE_COMPRESSOR</span><span class="p">:</span>
+            <span class="n">compressor_config</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;plugins&#39;</span><span class="p">:</span> <span class="n">mce_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;plugins&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">),</span>
+                <span class="s">&#39;themes&#39;</span><span class="p">:</span> <span class="n">mce_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;theme&#39;</span><span class="p">,</span> <span class="s">&#39;advanced&#39;</span><span class="p">),</span>
+                <span class="s">&#39;languages&#39;</span><span class="p">:</span> <span class="n">mce_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;language&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">),</span>
+                <span class="s">&#39;diskcache&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">&#39;debug&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="n">compressor_json</span> <span class="o">=</span> <span class="n">simplejson</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">compressor_config</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="n">pos</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">u&#39;&#39;&#39;&lt;script type=&quot;text/javascript&quot;&gt;</span>
+<span class="s">setTimeout(function () {</span>
+<span class="s">    var id = &#39;</span><span class="si">%s</span><span class="s">&#39;;</span>
+<span class="s">    </span>
+<span class="s">    if (typeof(window._tinymce_inited) == &#39;undefined&#39;) {</span>
+<span class="s">        window._tinymce_inited = [];</span>
+<span class="s">    }</span>
+<span class="s">    </span>
+<span class="s">    if (typeof(window._tinymce_inited[id]) == &#39;undefined&#39;) {</span>
+<span class="s">        window._tinymce_inited[id] = true;</span>
+<span class="s">    } else {</span>
+<span class="s">        var elements = id.replace(/__prefix__/, parseInt(document.getElementById(&#39;</span><span class="si">%s</span><span class="s">TOTAL_FORMS&#39;).value) - 1);</span>
+<span class="s">        console.log(elements);</span>
+<span class="s">        if (document.getElementById(elements)) {</span>
+<span class="s">            tinymce.init(</span><span class="si">%s</span><span class="s">);</span>
+<span class="s">        }</span>
+<span class="s">    }</span>
+<span class="s">}, 0);</span>
+<span class="s">&lt;/script&gt;&#39;&#39;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">final_attrs</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">],</span> <span class="n">final_attrs</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="n">pos</span><span class="p">],</span> <span class="n">mce_json</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">html</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">u&#39;&lt;script type=&quot;text/javascript&quot;&gt;tinyMCE.init(</span><span class="si">%s</span><span class="s">)&lt;/script&gt;&#39;</span> <span class="o">%</span> <span class="n">mce_json</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">mark_safe</span><span class="p">(</span><span class="s">u&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">html</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_media</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">tinymce</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">USE_COMPRESSOR</span><span class="p">:</span>
+            <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;tinymce-compressor&#39;</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="n">tinymce</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">JS_URL</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tinymce</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">USE_FILEBROWSER</span><span class="p">:</span>
+            <span class="n">js</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">&#39;tinymce-filebrowser&#39;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">forms</span><span class="o">.</span><span class="n">Media</span><span class="p">(</span><span class="n">js</span><span class="o">=</span><span class="n">js</span><span class="p">)</span>
+    <span class="n">media</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_media</span><span class="p">)</span>
+
+</div>
+<span class="k">class</span> <span class="nc">AdminTinyMCE</span><span class="p">(</span><span class="n">admin_widgets</span><span class="o">.</span><span class="n">AdminTextareaWidget</span><span class="p">,</span> <span class="n">TinyMCE</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span> <span class="nf">get_language_config</span><span class="p">(</span><span class="n">content_language</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">language</span> <span class="o">=</span> <span class="n">get_language</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">content_language</span><span class="p">:</span>
+        <span class="n">content_language</span> <span class="o">=</span> <span class="n">content_language</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">content_language</span> <span class="o">=</span> <span class="n">language</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">config</span><span class="p">[</span><span class="s">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">language</span>
+
+    <span class="n">lang_names</span> <span class="o">=</span> <span class="n">SortedDict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">lang</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGES</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">lang_names</span><span class="p">:</span> <span class="n">lang_names</span><span class="p">[</span><span class="n">lang</span><span class="p">[:</span><span class="mi">2</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">lang_names</span><span class="p">[</span><span class="n">lang</span><span class="p">[:</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">sp_langs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">lang</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">lang_names</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">lang</span> <span class="o">==</span> <span class="n">content_language</span><span class="p">:</span>
+            <span class="n">default</span> <span class="o">=</span> <span class="s">&#39;+&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">default</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="n">sp_langs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">u&#39;</span><span class="si">%s%s</span><span class="s">=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="s">&#39; / &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">names</span><span class="p">),</span> <span class="n">lang</span><span class="p">))</span>
+
+    <span class="n">config</span><span class="p">[</span><span class="s">&#39;spellchecker_languages&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sp_langs</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">content_language</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">LANGUAGES_BIDI</span><span class="p">:</span>
+        <span class="n">config</span><span class="p">[</span><span class="s">&#39;directionality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;rtl&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">config</span><span class="p">[</span><span class="s">&#39;directionality&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;ltr&#39;</span>
+
+    <span class="k">if</span> <span class="n">tinymce</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">USE_SPELLCHECKER</span><span class="p">:</span>
+        <span class="n">config</span><span class="p">[</span><span class="s">&#39;spellchecker_rpc_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reverse</span><span class="p">(</span><span class="s">&#39;tinymce.views.spell_check&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">config</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Winparf 1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Adrien Brunet and Jérémy Ollivier.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

@@ -75,6 +75,7 @@
 </div>
 <div class="section" id="app-forum">
 <h2>App forum<a class="headerlink" href="#app-forum" title="Permalink to this headline">¶</a></h2>
+<p>This is where the code for the forum is.</p>
 <div class="section" id="module-forum.views">
 <span id="models"></span><h3>Models<a class="headerlink" href="#module-forum.views" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
@@ -211,12 +212,170 @@
 
 </div>
 </div>
+<div class="section" id="app-tinycme">
+<h2>App Tinycme<a class="headerlink" href="#app-tinycme" title="Permalink to this headline">¶</a></h2>
+<p>This is the module used to edit the posts before submitting it.</p>
+<div class="section" id="id2">
+<h3>Models<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-tinymce.models"></span><dl class="class">
+<dt id="tinymce.models.HTMLField">
+<em class="property">class </em><tt class="descclassname">tinymce.models.</tt><tt class="descname">HTMLField</tt><big>(</big><em>verbose_name=None</em>, <em>name=None</em>, <em>primary_key=False</em>, <em>max_length=None</em>, <em>unique=False</em>, <em>blank=False</em>, <em>null=False</em>, <em>db_index=False</em>, <em>rel=None</em>, <em>default=&lt;class django.db.models.fields.NOT_PROVIDED at 0x37547a0&gt;</em>, <em>editable=True</em>, <em>serialize=True</em>, <em>unique_for_date=None</em>, <em>unique_for_month=None</em>, <em>unique_for_year=None</em>, <em>choices=None</em>, <em>help_text=''</em>, <em>db_column=None</em>, <em>db_tablespace=None</em>, <em>auto_created=False</em>, <em>validators=</em><span class="optional">[</span><span class="optional">]</span>, <em>error_messages=None</em><big>)</big><a class="reference internal" href="_modules/tinymce/models.html#HTMLField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.models.HTMLField" title="Permalink to this definition">¶</a></dt>
+<dd><p>A large string field for HTML content. It uses the TinyMCE widget in
+forms.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id3">
+<h3>Views<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-tinymce.views"></span><dl class="function">
+<dt id="tinymce.views.compressor">
+<tt class="descclassname">tinymce.views.</tt><tt class="descname">compressor</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/tinymce/views.html#compressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.views.compressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a GZip-compressed response.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tinymce.views.flatpages_link_list">
+<tt class="descclassname">tinymce.views.</tt><tt class="descname">flatpages_link_list</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/tinymce/views.html#flatpages_link_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.views.flatpages_link_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a HttpResponse whose content is a Javscript file representing a
+list of links to flatpages.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tinymce.views.preview">
+<tt class="descclassname">tinymce.views.</tt><tt class="descname">preview</tt><big>(</big><em>request</em>, <em>name</em><big>)</big><a class="reference internal" href="_modules/tinymce/views.html#preview"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.views.preview" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a HttpResponse whose content is an HTML file that is used
+by the TinyMCE preview plugin. The template is loaded from
+&#8216;tinymce/&lt;name&gt;_preview.html&#8217; or &#8216;&lt;name&gt;/tinymce_preview.html&#8217;.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tinymce.views.render_to_image_list">
+<tt class="descclassname">tinymce.views.</tt><tt class="descname">render_to_image_list</tt><big>(</big><em>image_list</em><big>)</big><a class="reference internal" href="_modules/tinymce/views.html#render_to_image_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.views.render_to_image_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a HttpResponse whose content is a Javscript file representing a
+list of images suitable for use wit the TinyMCE external_image_list_url
+configuration option. The image_list parameter must be a list of 2-tuples.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tinymce.views.render_to_link_list">
+<tt class="descclassname">tinymce.views.</tt><tt class="descname">render_to_link_list</tt><big>(</big><em>link_list</em><big>)</big><a class="reference internal" href="_modules/tinymce/views.html#render_to_link_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.views.render_to_link_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a HttpResponse whose content is a Javscript file representing a
+list of links suitable for use wit the TinyMCE external_link_list_url
+configuration option. The link_list parameter must be a list of 2-tuples.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tinymce.views.spell_check">
+<tt class="descclassname">tinymce.views.</tt><tt class="descname">spell_check</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/tinymce/views.html#spell_check"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.views.spell_check" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a HttpResponse that implements the TinyMCE spellchecker protocol.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tinymce.views.textareas_js">
+<tt class="descclassname">tinymce.views.</tt><tt class="descname">textareas_js</tt><big>(</big><em>request</em>, <em>name</em>, <em>lang=None</em><big>)</big><a class="reference internal" href="_modules/tinymce/views.html#textareas_js"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.views.textareas_js" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a HttpResponse whose content is a Javscript file. The template
+is loaded from &#8216;tinymce/&lt;name&gt;_textareas.js&#8217; or
+&#8216;&lt;name&gt;/tinymce_textareas.js&#8217;. Optionally, the lang argument sets the
+content language.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-tinymce.widgets">
+<span id="widget"></span><h3>Widget<a class="headerlink" href="#module-tinymce.widgets" title="Permalink to this headline">¶</a></h3>
+<p>This TinyMCE widget was copied and extended from this code by John D&#8217;Agostino:
+<a class="reference external" href="http://code.djangoproject.com/wiki/CustomWidgetsTinyMCE">http://code.djangoproject.com/wiki/CustomWidgetsTinyMCE</a></p>
+<dl class="class">
+<dt id="tinymce.widgets.TinyMCE">
+<em class="property">class </em><tt class="descclassname">tinymce.widgets.</tt><tt class="descname">TinyMCE</tt><big>(</big><em>content_language=None</em>, <em>attrs=None</em>, <em>mce_attrs=None</em><big>)</big><a class="reference internal" href="_modules/tinymce/widgets.html#TinyMCE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.widgets.TinyMCE" title="Permalink to this definition">¶</a></dt>
+<dd><p>TinyMCE widget. Set settings.TINYMCE_JS_URL to set the location of the
+javascript file. Default is &#8220;MEDIA_URL + &#8216;js/tiny_mce/tiny_mce.js&#8217;&#8221;.
+You can customize the configuration with the mce_attrs argument to the
+constructor.</p>
+<p>In addition to the standard configuration you can set the
+&#8216;content_language&#8217; parameter. It takes the value of the &#8216;language&#8217;
+parameter by default.</p>
+<p>In addition to the default settings from settings.TINYMCE_DEFAULT_CONFIG,
+this widget sets the &#8216;language&#8217;, &#8216;directionality&#8217; and
+&#8216;spellchecker_languages&#8217; parameters by default. The first is derived from
+the current Django language, the others from the &#8216;content_language&#8217;
+parameter.</p>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="app-userwinparf">
+<h2>App userwinparf<a class="headerlink" href="#app-userwinparf" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Models<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-userwinparf.models"></span><dl class="class">
+<dt id="userwinparf.models.Userwinparf">
+<em class="property">class </em><tt class="descclassname">userwinparf.models.</tt><tt class="descname">Userwinparf</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/userwinparf/models.html#Userwinparf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.models.Userwinparf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define the model of an userwinparf.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id5">
+<h3>Views<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-userwinparf.views"></span><dl class="function">
+<dt id="userwinparf.views.LoginRequest">
+<tt class="descclassname">userwinparf.views.</tt><tt class="descname">LoginRequest</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/userwinparf/views.html#LoginRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.views.LoginRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>View to log in.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="userwinparf.views.LogoutRequest">
+<tt class="descclassname">userwinparf.views.</tt><tt class="descname">LogoutRequest</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/userwinparf/views.html#LogoutRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.views.LogoutRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>View to log out.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="userwinparf.views.UserwinparfRegistration">
+<tt class="descclassname">userwinparf.views.</tt><tt class="descname">UserwinparfRegistration</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/userwinparf/views.html#UserwinparfRegistration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.views.UserwinparfRegistration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Views that register the user in our database if the form is valid.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="userwinparf.views.profile">
+<tt class="descclassname">userwinparf.views.</tt><tt class="descname">profile</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/userwinparf/views.html#profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.views.profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>View to access the profiles.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-userwinparf.forms">
+<span id="forms"></span><h3>Forms<a class="headerlink" href="#module-userwinparf.forms" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="userwinparf.forms.LoginForm">
+<em class="property">class </em><tt class="descclassname">userwinparf.forms.</tt><tt class="descname">LoginForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em><big>)</big><a class="reference internal" href="_modules/userwinparf/forms.html#LoginForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.forms.LoginForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the form to log into the website.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="userwinparf.forms.RegistrationForm">
+<em class="property">class </em><tt class="descclassname">userwinparf.forms.</tt><tt class="descname">RegistrationForm</tt><big>(</big><em>data=None</em>, <em>files=None</em>, <em>auto_id='id_%s'</em>, <em>prefix=None</em>, <em>initial=None</em>, <em>error_class=&lt;class 'django.forms.util.ErrorList'&gt;</em>, <em>label_suffix=':'</em>, <em>empty_permitted=False</em>, <em>instance=None</em><big>)</big><a class="reference internal" href="_modules/userwinparf/forms.html#RegistrationForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.forms.RegistrationForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the form to register as a userwinparf.</p>
+<dl class="method">
+<dt id="userwinparf.forms.RegistrationForm.clean_password1">
+<tt class="descname">clean_password1</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/userwinparf/forms.html#RegistrationForm.clean_password1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.forms.RegistrationForm.clean_password1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check that the two passwords match</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="userwinparf.forms.RegistrationForm.clean_username">
+<tt class="descname">clean_username</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/userwinparf/forms.html#RegistrationForm.clean_username"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.forms.RegistrationForm.clean_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the username already exists or not.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
 </div>
 <div class="section" id="fonctionnal-tests">
 <h1>Fonctionnal tests<a class="headerlink" href="#fonctionnal-tests" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-fts.tests">
-<span id="test-py"></span><h2>test.py<a class="headerlink" href="#module-fts.tests" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
+<div class="section" id="test-py">
+<h2>test.py<a class="headerlink" href="#test-py" title="Permalink to this headline">¶</a></h2>
+<p>This module tests the website navigating trough it using an test-dedicated database.</p>
+<span class="target" id="module-fts.tests"></span><dl class="class">
 <dt id="fts.tests.RegisterTest">
 <em class="property">class </em><tt class="descclassname">fts.tests.</tt><tt class="descname">RegisterTest</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="_modules/fts/tests.html#RegisterTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#fts.tests.RegisterTest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Navigate on the website testing all functionnalities</p>
@@ -261,10 +420,22 @@
 <li><a class="reference internal" href="#id1">Views</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#app-tinycme">App Tinycme</a><ul>
+<li><a class="reference internal" href="#id2">Models</a></li>
+<li><a class="reference internal" href="#id3">Views</a></li>
+<li><a class="reference internal" href="#module-tinymce.widgets">Widget</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#app-userwinparf">App userwinparf</a><ul>
+<li><a class="reference internal" href="#id4">Models</a></li>
+<li><a class="reference internal" href="#id5">Views</a></li>
+<li><a class="reference internal" href="#module-userwinparf.forms">Forms</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#fonctionnal-tests">Fonctionnal tests</a><ul>
-<li><a class="reference internal" href="#module-fts.tests">test.py</a></li>
+<li><a class="reference internal" href="#test-py">test.py</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
