@@ -150,6 +150,8 @@ INSTALLED_APPS = (
     'haystack',
     'fts',
     'django_extensions',
+    'grappelli',
+    'filebrowser',
 
 
 )

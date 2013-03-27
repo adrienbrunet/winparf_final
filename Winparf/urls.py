@@ -2,12 +2,14 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf import settings
+from filebrowser.sites import site
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^admin/filebrowser/', include(site.urls)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', include('basic.urls')),
     url(r'^about/$', 'basic.views.about'),
@@ -27,7 +29,7 @@ urlpatterns = patterns('',
     (r"^new_thread/(\d+)/$", "forum.views.new_thread"),
     (r'^tinymce/', include('tinymce.urls')),
     (r'^search/', "forum.views.main"),
-    (r'^addview/(?P<thread_id>\w+)/$', "forum.views.addoneview")
+    (r'^addview/(?P<thread_id>\w+)/$', "forum.views.addoneview"),
   )
 
 
