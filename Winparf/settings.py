@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'tinymce',
     'haystack',
     'fts',
+    'django_extensions',
 
 
 )

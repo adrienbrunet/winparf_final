@@ -76,10 +76,10 @@ def forum(request, pk):
 
 
 def thread(request, pk):
+    """Listing of posts in a thread."""
     t=Thread.objects.get(pk=pk)
     t.nbviews    = t.nbviews + 1
     t.save()
-    """Listing of posts in a thread."""
     posts = Post.objects.filter(thread=pk).order_by("created")
     posts = mk_paginator(request, posts, 15)
     title = Thread.objects.get(pk=pk).title
@@ -116,25 +116,3 @@ def reply(request, pk):
         thread = Thread.objects.get(pk=pk)
         post = Post.objects.create(thread=thread, title=p["subject"], body=p["body"], creator=request.user)
     return HttpResponseRedirect(reverse("forum.views.thread", args=[pk]) + "?page=last")
-
-
-# # -------------------------------------------
-# def search(request):
-#     errors = []
-#     if 'q' in request.GET:
-#         q = request.GET['q']
-#         if not q:
-#             errors.append('Enter a search term.')
-#         elif len(q) > 20:
-#             errors.append('Please enter at most 20 characters.')
-#         else:
-#             thread = Thread.objects.filter(title__icontains=q)
-#             thread = mk_paginator(request, thread, 15)
-#             return render_to_response('forum/search_results.html', add_csrf(request, thread=thread, query=q))
-#     return render_to_response('forum/search_form.html', {'errors': errors})
-
-
-def addoneview(request, thread_id):
-    print 'its working biatch --> '+str(thread_id)
-    return HttpResponse('swarkescuiop') 
-    # Response('qzrljghqsgrmkjb')

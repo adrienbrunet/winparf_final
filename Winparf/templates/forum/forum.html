@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block extrahead %}
-    <script src="{% static 'js/nbview.js' %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -47,7 +46,7 @@
         <td {% if forloop.last %}class="last"{% endif %}>
             {{ thread.last_post.short|linebreaksbr }}</td>
     </tr>
-{# addoneview({{ thread.id }}) #}
+
     {% endfor %}
 </table>
 </div>

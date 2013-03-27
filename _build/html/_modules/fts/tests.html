@@ -1,0 +1,153 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>fts.tests &mdash; Winparf 1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Winparf 1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Winparf 1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for fts.tests</h1><div class="highlight"><pre>
+<span class="kn">from</span> <span class="nn">django.test</span> <span class="kn">import</span> <span class="n">LiveServerTestCase</span>
+<span class="kn">from</span> <span class="nn">selenium</span> <span class="kn">import</span> <span class="n">webdriver</span>
+<span class="kn">from</span> <span class="nn">selenium.webdriver.common.keys</span> <span class="kn">import</span> <span class="n">Keys</span>
+
+
+<div class="viewcode-block" id="RegisterTest"><a class="viewcode-back" href="../../index.html#fts.tests.RegisterTest">[docs]</a><span class="k">class</span> <span class="nc">RegisterTest</span><span class="p">(</span><span class="n">LiveServerTestCase</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;please work&#39;&#39;&#39;</span>
+    <span class="n">fixtures</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;admin_user.json&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">setUp</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">browser</span> <span class="o">=</span> <span class="n">webdriver</span><span class="o">.</span><span class="n">Firefox</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">implicitly_wait</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">set_page_load_timeout</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">tearDown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">test_can_create_new_userbet_via_admin_site</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c"># Gertrude opens her web browser, and goes to the admin page</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">live_server_url</span> <span class="o">+</span> <span class="s">&#39;/admin/&#39;</span><span class="p">)</span>
+
+        <span class="c"># She sees the familiar &#39;Django administration&#39; heading</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_tag_name</span><span class="p">(</span><span class="s">&#39;body&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Django administration&#39;</span><span class="p">,</span> <span class="n">body</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="c"># She types in her username and passwords and hits return</span>
+        <span class="n">username_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span>
+        <span class="n">username_field</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s">&#39;winparf&#39;</span><span class="p">)</span>
+
+        <span class="n">password_field</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_name</span><span class="p">(</span><span class="s">&#39;password&#39;</span><span class="p">)</span>
+        <span class="n">password_field</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="s">&#39;winparf&#39;</span><span class="p">)</span>
+        <span class="n">password_field</span><span class="o">.</span><span class="n">send_keys</span><span class="p">(</span><span class="n">Keys</span><span class="o">.</span><span class="n">RETURN</span><span class="p">)</span>
+
+        <span class="c"># her username and password are accepted, and she is taken to</span>
+        <span class="c"># the Site Administration page</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_tag_name</span><span class="p">(</span><span class="s">&#39;body&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Django administration&#39;</span><span class="p">,</span> <span class="n">body</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="c"># She now sees a hyperlink that says &quot;Userbets&quot;</span>
+        <span class="n">userbet_links</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_elements_by_link_text</span><span class="p">(</span><span class="s">&#39;Userwinparfs&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertEquals</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">userbet_links</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c"># so she clicks it</span>
+        <span class="n">userbet_links</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+        <span class="c"># She is taken to the userbets listing page, which shows she has</span>
+        <span class="c"># no userbet yet</span>
+        <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_tag_name</span><span class="p">(</span><span class="s">&#39;body&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;0 userwinparfs&#39;</span><span class="p">,</span> <span class="n">body</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="c"># She sees a link to &#39;add&#39; a new poll, so she clicks it</span>
+        <span class="n">new_userbet_link</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_link_text</span><span class="p">(</span><span class="s">&#39;Add userwinparf&#39;</span><span class="p">)</span>
+        <span class="n">new_userbet_link</span><span class="o">.</span><span class="n">click</span><span class="p">()</span>
+
+        <span class="n">body</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">browser</span><span class="o">.</span><span class="n">find_element_by_tag_name</span><span class="p">(</span><span class="s">&#39;body&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assertIn</span><span class="p">(</span><span class="s">&#39;Django administration&#39;</span><span class="p">,</span> <span class="n">body</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+        <span class="c"># TODO: Gertrude uses the admin site to create a new userbet</span>
+        <span class="c">#self.fail(&#39;todo: finish tests&#39;)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">Winparf 1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Adrien Brunet and Jérémy Ollivier.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

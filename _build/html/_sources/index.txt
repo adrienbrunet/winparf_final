@@ -1,0 +1,62 @@
+.. Winparf documentation master file, created by
+   sphinx-quickstart on Wed Mar 27 13:38:50 2013.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Winparf's documentation!
+===================================
+
+.. toctree::
+   :maxdepth: 3
+
+Applications
+================
+
+App basic
+++++++++++
+
+Views
+-------
+
+.. automodule:: basic.views
+    :members:
+
+App forum
++++++++++++
+
+Models
+-------
+.. automodule:: forum.views
+    :members:
+
+Tests
+-------
+.. automodule:: forum.views
+    :members:
+
+Views
+-------
+.. automodule:: forum.views
+    :members:
+
+
+
+
+
+Fonctionnal tests
+==================
+
+test.py
+++++++++++
+ 
+.. automodule:: fts.tests
+    :members:
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+

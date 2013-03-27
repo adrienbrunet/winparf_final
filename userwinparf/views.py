@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from userwinparf.models import Userwinparf
 
 def UserwinparfRegistration(request):
+        '''Views that register the user in our database if the form is valid.'''
         if request.user.is_authenticated():
                 return HttpResponseRedirect('/profiles/')
         if request.method == 'POST':
@@ -27,6 +28,7 @@ def UserwinparfRegistration(request):
                 return render_to_response('register.html', context, context_instance=RequestContext(request))
 
 def LoginRequest(request):
+        ''' View to log in.'''
         if request.user.is_authenticated():
                 return HttpResponseRedirect('/profiles/')
         if request.method == 'POST':
@@ -49,11 +51,13 @@ def LoginRequest(request):
                 return render_to_response('login.html', context, context_instance=RequestContext(request))
 
 def LogoutRequest(request):
+        '''View to log out.'''
         logout(request)
         return HttpResponseRedirect('/')
 
 @login_required
 def profile(request):
+        ''' View to access the profiles.'''
         if not request.user.is_authenticated():
                 return HttpResponseRedirect('/login/')
         userwinparf = request.user.get_profile

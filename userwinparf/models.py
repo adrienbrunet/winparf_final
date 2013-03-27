@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Userwinparf(models.Model):
+	''' Define the model of an userwinparf.'''
         user            = models.OneToOneField(User)
         name            = models.CharField(max_length=100)
 

@@ -1,0 +1,5 @@
+Driver XML-RPC methods
+======================
+ 
+.. automodule:: fts.tests
+    :members:
