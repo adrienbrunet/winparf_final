@@ -103,10 +103,7 @@ def thread(request, pk):
 
 @login_required
 def post(request, ptype, pk):
-    u = request.user.get_profile()
-    v=u.can_upload
-    if v==False:
-        return HttpResponseRedirect('/permission')
+
     """Display a post form."""
     action = reverse("forum.views.%s" % ptype, args=[pk])
     if ptype == "new_thread":
