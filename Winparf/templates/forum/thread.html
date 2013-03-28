@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Posts  -->
+<div class="ttitle"><h2>{{ title }}</h2></div>
+<div id="list">
+
+	<a href="{% url forum.views.forum forum_pk %}">&lt;&lt; back to list of topics</a> | 
+<a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
+
+    {% for post in posts.object_list %}
+    	<table border="1px" bordercolor=white cellpadding="4" width="100%">
+    		<tr style="border-collapse : collapse; border-spacing : 2px;" class="{% cycle 'odd' 'even' %}">
+        		<td style="width:25%; vertical-align:top; border-right:1px;">
+		            <b>{{ post.title }}</b><br>
+		            <i style="color:grey;">by {{ post.creator }} | {{ post.created }}<i>
+                </td>
+<<<<<<< HEAD
+                <td style="padding-left:20px;">{{ post.body|safe }}</td>
+=======
+                <td style="padding-left:20px;">
+		            {{ post.body|safe }} 
+                </td>
+>>>>>>> e0fb891d42881a91bf5afc1e1961cb3a12424c00
+    		</tr>
+		</table>
+    {% endfor %}
+</div>
+
+
+<!-- Next/Prev page links -->
+{% if posts.object_list and posts.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href= "?page={{ posts.previous_page_number }}">previous &lt;&lt; </a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}"> &gt;&gt; next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+<a href="{% url forum.views.forum forum_pk %}">&lt;&lt; back to list of topics</a> | 
+<a class="button" href="{% url forum.views.post 'reply' pk %}">Reply</a>
+
+{% endblock %}
