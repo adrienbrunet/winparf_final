@@ -11,22 +11,6 @@ from userwinparf.models import *
 from datetime import * 
 
 
-# def regular(func):
-#     def wrapper(*args, **kwargs):
-#         # Pre-traitement            
-#         response = func(*args, **kwargs)
-#         if request.user.is_authenticated():
-#             u = request.user.get_profile
-#             v=u.can_upload
-#             if not v=="regular":
-#                 return HttpResponseRedirect('/')
-#         # Post-traitement
-#         return response
-#     return wrapper
-
-
-# @login_required
-# def access(request):
 
 @login_required
 def main(request):
