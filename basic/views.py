@@ -10,3 +10,6 @@ def home(request):
 def about(request):
     ''' Redirect to the template for the About page'''
     return render(request, 'basic/about.html',)
+
+def permission(request):
+	return render(request, 'basic/permission.html')

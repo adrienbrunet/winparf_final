@@ -5,7 +5,7 @@
 	  {% if error %}
 	 <br><p id="error_pass">{{ error }}</p>
   {% endif %}
-	{% if form.errors %}<p class="error">Please correct the following fields:</p>{% endif %}
+	{% if form.errors %}<p class="error">Please correct the following fields: {{ form.errors }}</p>{% endif %}
 	<div class="register_div">
 	        {% if form.name.errors %}<p class="error">{{ form.name.errors }}</p>{% endif %}
 	        <p><label for="name"{% if form.name.errors %} class="error"{% endif %}>Name:</label></p>

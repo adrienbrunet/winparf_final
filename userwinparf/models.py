@@ -7,6 +7,8 @@ class Userwinparf(models.Model):
     ''' Define the model of an userwinparf.'''
     user = models.OneToOneField(User)
     name = models.CharField(max_length=100)
+    status = models.CharField(default="regular", max_length=50)
+
 
     def __unicode__(self):
         return self.name

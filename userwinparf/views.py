@@ -10,15 +10,15 @@ from userwinparf.models import Userwinparf
 def UserwinparfRegistration(request):
         '''Views that register the user in our database if the form is valid.'''
         if request.user.is_authenticated():
-                return HttpResponseRedirect('/profiles/')
+                return HttpResponseRedirect('/forum/')
         if request.method == 'POST':
                 form = RegistrationForm(request.POST)
                 if form.is_valid():
                         user = User.objects.create_user(username=form.cleaned_data['username'], email = form.cleaned_data['email'], password = form.cleaned_data['password'])
                         user.save()
-                        userwinparf = Userwinparf(user=user, name=form.cleaned_data['name'])
+                        userwinparf = Userwinparf(user=user, name=form.cleaned_data['name'], status="regular")
                         userwinparf.save()
-                        return HttpResponseRedirect('/profiles/')
+                        return HttpResponseRedirect('/forum/')
                 else:
                         return render_to_response('register.html', {'form': form}, context_instance=RequestContext(request))
         else:
@@ -30,7 +30,7 @@ def UserwinparfRegistration(request):
 def LoginRequest(request):
         ''' View to log in.'''
         if request.user.is_authenticated():
-                return HttpResponseRedirect('/profiles/')
+                return HttpResponseRedirect('/forum/')
         if request.method == 'POST':
                 form = LoginForm(request.POST)
                 if form.is_valid():
@@ -39,7 +39,7 @@ def LoginRequest(request):
                         userwinparf = authenticate(username=username, password=password)
                         if userwinparf is not None:
                                 login(request, userwinparf)
-                                return HttpResponseRedirect('/profiles/')
+                                return HttpResponseRedirect('/forum/')
                         else:
                                 return render_to_response('login.html', {'form': form, 'error':'Invalid username and/or password'}, context_instance=RequestContext(request))
                 else:

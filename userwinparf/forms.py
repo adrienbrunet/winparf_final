@@ -10,6 +10,7 @@ class RegistrationForm(ModelForm):
         email           = forms.EmailField(label=(u'Email Address'))
         password        = forms.CharField(label=(u'Password'), widget=forms.PasswordInput(render_value=False))
         password1       = forms.CharField(label=(u'Verify Password'), widget=forms.PasswordInput(render_value=False))
+        status          = forms.CharField(required=False)
 
         class Meta:
                 model = Userwinparf

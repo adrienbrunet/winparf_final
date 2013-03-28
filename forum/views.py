@@ -7,12 +7,31 @@ from django.shortcuts import render_to_response
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
+from userwinparf.models import *
+
+
+# def regular(func):
+#     def wrapper(*args, **kwargs):
+#         # Pre-traitement
+
+                
+#         response = func(*args, **kwargs)
+#         if request.user.is_authenticated():
+#             u = request.user.get_profile
+#             v=u.status
+#             if not v=="regular":
+#                 return HttpResponseRedirect('/')
+#         # Post-traitement
+#         return response
+#     return wrapper
+
+
 
 
 @login_required
 def main(request):
     """Main listing."""
-     #---------------
+    #---------------
     errors = []
     search = False
     if 'q' in request.GET:
@@ -93,6 +112,10 @@ def thread(request, pk):
 
 @login_required
 def post(request, ptype, pk):
+    u = request.user.get_profile()
+    v=u.status
+    if not v=="regular":
+        return HttpResponseRedirect('/permission')
     """Display a post form."""
     action = reverse("forum.views.%s" % ptype, args=[pk])
     if ptype == "new_thread":
@@ -106,7 +129,11 @@ def post(request, ptype, pk):
 
 @login_required
 def new_thread(request, pk):
-    """Start a new thread."""
+    u = request.user.get_profile()
+    v=u.status
+    if not v=="regular":
+        return HttpResponseRedirect('/permission')
+        """Start a new thread."""
     p = request.POST
     if p["subject"] and p["body"]:
         forum = Forum.objects.get(pk=pk)
@@ -117,7 +144,11 @@ def new_thread(request, pk):
 
 @login_required
 def reply(request, pk):
-    """Reply to a thread."""
+    u = request.user.get_profile()
+    v=u.status
+    if not v=="regular":
+        return HttpResponseRedirect('/permission')
+        """Reply to a thread."""
     p = request.POST
     if p["body"]:
         thread = Thread.objects.get(pk=pk)
