@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block extrahead %}
+{% endblock %}
+
+{% block content %}
+    
+
+<div id="searchbar">
+<!-- Search Bar -->
+
+    <form action="/search" method="get">
+        <input type="text" name="q">
+        <input type="submit" value="Search">
+    </form>
+</div>
+
+
+<br>
+
+
+<!-- Threads  -->
+<a href='../'> Back to the forum list</a>
+
+ | <a href="{% url forum.views.post 'new_thread' pk %}">Start New Topic</a>
+
+<div>
+    <h2>Most seen posts</h2>
+<table  border="1px" bordercolor=white cellpadding="4" width="100%">
+    <tr class='evenodd'>
+        <td style="vertical-align:top; width:25%;"><b>Topics</b></td>
+        <td><b>Views</b></td>
+        <td><b>Replies</b></td>
+        <td><b>Last post</b></td>
+    </tr>
+
+    {% for thread in threads_recommanded.object_list %}
+    <tr class="{% cycle 'odd' 'even' %}">
+        <td style="vertical-align:top; width:25%;" {% if forloop.last %}class="last"{% endif %}>
+        <a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a>
+        </td>
+        <td {% if forloop.last %}class="last"{% endif %}> {{ thread.nbviews }}</td>
+        <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
+        <td {% if forloop.last %}class="last"{% endif %}>
+            {{ thread.last_post.short|linebreaksbr }}</td>
+    </tr>
+
+    {% endfor %}
+</table>
+</div>
+
+<h2>Posts</h2>
+
+<div>
+<table  border="1px" bordercolor=white cellpadding="4" width="100%">
+    <tr class='evenodd'>
+        <td style="vertical-align:top; width:25%;"><b>Topics</b></td>
+        <td><b>Views</b></td>
+        <td><b>Replies</b></td>
+        <td><b>Last post</b></td>
+    </tr>
+
+    {% for thread in threads.object_list %}
+    <tr class="{% cycle 'odd' 'even' %}">
+        <td style="vertical-align:top; width:25%;" {% if forloop.last %}class="last"{% endif %}>
+        <a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a>
+        </td>
+        <td {% if forloop.last %}class="last"{% endif %}> {{ thread.nbviews }}</td>
+        <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
+        <td {% if forloop.last %}class="last"{% endif %}>
+            {{ thread.last_post.short|linebreaksbr }}</td>
+    </tr>
+{# addoneview({{ thread.id }}) #}
+    {% endfor %}
+</table>
+</div>
+
+<!-- Next/Prev page links  -->
+{% if threads.object_list and threads.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if threads.has_previous %}
+            <a href= "?page={{ threads.previous_page_number }}">previous &lt;&lt; </a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ threads.number }} of {{ threads.paginator.num_pages }}
+        </span>
+
+        {% if threads.has_next %}
+            <a href="?page={{ threads.next_page_number }}"> &gt;&gt; next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+
+
+
+
+
+{% endblock %}

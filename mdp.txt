@@ -1,0 +1,4 @@
+superuser: winparf winparf
+adressemail: abrunet@centrale-marseille.fr
+
+python manage.py dumpdata auth.User --indent=2 > fts/fixtures/admin_user.json
