@@ -8,17 +8,16 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.context_processors import csrf
 from django.contrib.auth.decorators import login_required
 from userwinparf.models import *
+from datetime import * 
 
 
 # def regular(func):
 #     def wrapper(*args, **kwargs):
-#         # Pre-traitement
-
-                
+#         # Pre-traitement            
 #         response = func(*args, **kwargs)
 #         if request.user.is_authenticated():
 #             u = request.user.get_profile
-#             v=u.status
+#             v=u.can_upload
 #             if not v=="regular":
 #                 return HttpResponseRedirect('/')
 #         # Post-traitement
@@ -26,12 +25,20 @@ from userwinparf.models import *
 #     return wrapper
 
 
-
+# @login_required
+# def access(request):
 
 @login_required
 def main(request):
     """Main listing."""
-    #---------------
+    # now = date.today()
+    # u = request.user.get_profile()
+    # v = u.date_joined
+    # limit = datetime.timedelta(days=365)
+    # delta = now-v
+    # if delta.days  > limit:
+    #     return HttpResponseRedirect('/permission')
+            #---------------
     errors = []
     search = False
     if 'q' in request.GET:
@@ -113,8 +120,8 @@ def thread(request, pk):
 @login_required
 def post(request, ptype, pk):
     u = request.user.get_profile()
-    v=u.status
-    if not v=="regular":
+    v=u.can_upload
+    if v==False:
         return HttpResponseRedirect('/permission')
     """Display a post form."""
     action = reverse("forum.views.%s" % ptype, args=[pk])
@@ -130,8 +137,8 @@ def post(request, ptype, pk):
 @login_required
 def new_thread(request, pk):
     u = request.user.get_profile()
-    v=u.status
-    if not v=="regular":
+    v=u.can_upload
+    if v==False:
         return HttpResponseRedirect('/permission')
         """Start a new thread."""
     p = request.POST
@@ -145,8 +152,8 @@ def new_thread(request, pk):
 @login_required
 def reply(request, pk):
     u = request.user.get_profile()
-    v=u.status
-    if not v=="regular":
+    v=u.can_upload
+    if v==False:
         return HttpResponseRedirect('/permission')
         """Reply to a thread."""
     p = request.POST

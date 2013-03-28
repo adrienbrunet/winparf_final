@@ -66,11 +66,26 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="basic.views.expired">
+<tt class="descclassname">basic.views.</tt><tt class="descname">expired</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#basic.views.expired" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redirect to the template when your account has expired.</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="basic.views.home">
 <tt class="descclassname">basic.views.</tt><tt class="descname">home</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/basic/views.html#home"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#basic.views.home" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redirect to the template for the Home page</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="basic.views.permission">
+<tt class="descclassname">basic.views.</tt><tt class="descname">permission</tt><big>(</big><em>request</em><big>)</big><a class="headerlink" href="#basic.views.permission" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redirect to the template when you don&#8217;t have the access to the content.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-basic.tests">
+<span id="tests"></span><h3>Tests<a class="headerlink" href="#module-basic.tests" title="Permalink to this headline">¶</a></h3>
 </div>
 </div>
 <div class="section" id="app-forum">
@@ -80,13 +95,13 @@
 <span id="models"></span><h3>Models<a class="headerlink" href="#module-forum.views" title="Permalink to this headline">¶</a></h3>
 <dl class="function">
 <dt id="forum.views.forum">
-<tt class="descclassname">forum.views.</tt><tt class="descname">forum</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#forum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.forum" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">forum.views.</tt><tt class="descname">forum</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#forum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.forum" title="Permalink to this definition">¶</a></dt>
 <dd><p>Listing of threads in a forum.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="forum.views.main">
-<tt class="descclassname">forum.views.</tt><tt class="descname">main</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.main" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">forum.views.</tt><tt class="descname">main</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main listing.</p>
 </dd></dl>
 
@@ -97,86 +112,23 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="forum.views.new_thread">
-<tt class="descclassname">forum.views.</tt><tt class="descname">new_thread</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#new_thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.new_thread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Start a new thread.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="forum.views.post">
-<tt class="descclassname">forum.views.</tt><tt class="descname">post</tt><big>(</big><em>request</em>, <em>ptype</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#post"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.post" title="Permalink to this definition">¶</a></dt>
-<dd><p>Display a post form.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="forum.views.reply">
-<tt class="descclassname">forum.views.</tt><tt class="descname">reply</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#reply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.reply" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reply to a thread.</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="forum.views.thread">
-<tt class="descclassname">forum.views.</tt><tt class="descname">thread</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.thread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Listing of posts in a thread.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="module-forum.views">
-<span id="tests"></span><h3>Tests<a class="headerlink" href="#module-forum.views" title="Permalink to this headline">¶</a></h3>
-<dl class="function">
-<dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">forum</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#forum"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Listing of threads in a forum.</p>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">main</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#main"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Main listing.</p>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">mk_paginator</tt><big>(</big><em>request</em>, <em>items</em>, <em>num_items</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#mk_paginator"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Create and return a paginator.</p>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">new_thread</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#new_thread"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Start a new thread.</p>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">post</tt><big>(</big><em>request</em>, <em>ptype</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#post"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Display a post form.</p>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">reply</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#reply"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Reply to a thread.</p>
-</dd></dl>
-
-<dl class="function">
-<dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">thread</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#thread"><span class="viewcode-link">[source]</span></a></dt>
+<tt class="descclassname">forum.views.</tt><tt class="descname">thread</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#thread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forum.views.thread" title="Permalink to this definition">¶</a></dt>
 <dd><p>Listing of posts in a thread.</p>
 </dd></dl>
 
 </div>
 <div class="section" id="id1">
-<h3>Views<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<h3>Tests<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="module-forum.views"></span><dl class="function">
 <dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">forum</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#forum"><span class="viewcode-link">[source]</span></a></dt>
+<tt class="descclassname">forum.views.</tt><tt class="descname">forum</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#forum"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Listing of threads in a forum.</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">main</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#main"><span class="viewcode-link">[source]</span></a></dt>
+<tt class="descclassname">forum.views.</tt><tt class="descname">main</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#main"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Main listing.</p>
 </dd></dl>
 
@@ -188,25 +140,34 @@
 
 <dl class="function">
 <dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">new_thread</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#new_thread"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Start a new thread.</p>
+<tt class="descclassname">forum.views.</tt><tt class="descname">thread</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#thread"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Listing of posts in a thread.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id2">
+<h3>Views<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<span class="target" id="module-forum.views"></span><dl class="function">
+<dt>
+<tt class="descclassname">forum.views.</tt><tt class="descname">forum</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#forum"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Listing of threads in a forum.</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">post</tt><big>(</big><em>request</em>, <em>ptype</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#post"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Display a post form.</p>
+<tt class="descclassname">forum.views.</tt><tt class="descname">main</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#main"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Main listing.</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">reply</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#reply"><span class="viewcode-link">[source]</span></a></dt>
-<dd><p>Reply to a thread.</p>
+<tt class="descclassname">forum.views.</tt><tt class="descname">mk_paginator</tt><big>(</big><em>request</em>, <em>items</em>, <em>num_items</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#mk_paginator"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Create and return a paginator.</p>
 </dd></dl>
 
 <dl class="function">
 <dt>
-<tt class="descclassname">forum.views.</tt><tt class="descname">thread</tt><big>(</big><em>request</em>, <em>pk</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#thread"><span class="viewcode-link">[source]</span></a></dt>
+<tt class="descclassname">forum.views.</tt><tt class="descname">thread</tt><big>(</big><em>request</em>, <em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/forum/views.html#thread"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Listing of posts in a thread.</p>
 </dd></dl>
 
@@ -215,18 +176,18 @@
 <div class="section" id="app-tinycme">
 <h2>App Tinycme<a class="headerlink" href="#app-tinycme" title="Permalink to this headline">¶</a></h2>
 <p>This is the module used to edit the posts before submitting it.</p>
-<div class="section" id="id2">
-<h3>Models<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>Models<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="module-tinymce.models"></span><dl class="class">
 <dt id="tinymce.models.HTMLField">
-<em class="property">class </em><tt class="descclassname">tinymce.models.</tt><tt class="descname">HTMLField</tt><big>(</big><em>verbose_name=None</em>, <em>name=None</em>, <em>primary_key=False</em>, <em>max_length=None</em>, <em>unique=False</em>, <em>blank=False</em>, <em>null=False</em>, <em>db_index=False</em>, <em>rel=None</em>, <em>default=&lt;class django.db.models.fields.NOT_PROVIDED at 0x26a6808&gt;</em>, <em>editable=True</em>, <em>serialize=True</em>, <em>unique_for_date=None</em>, <em>unique_for_month=None</em>, <em>unique_for_year=None</em>, <em>choices=None</em>, <em>help_text=''</em>, <em>db_column=None</em>, <em>db_tablespace=None</em>, <em>auto_created=False</em>, <em>validators=</em><span class="optional">[</span><span class="optional">]</span>, <em>error_messages=None</em><big>)</big><a class="reference internal" href="_modules/tinymce/models.html#HTMLField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.models.HTMLField" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">tinymce.models.</tt><tt class="descname">HTMLField</tt><big>(</big><em>verbose_name=None</em>, <em>name=None</em>, <em>primary_key=False</em>, <em>max_length=None</em>, <em>unique=False</em>, <em>blank=False</em>, <em>null=False</em>, <em>db_index=False</em>, <em>rel=None</em>, <em>default=&lt;class django.db.models.fields.NOT_PROVIDED at 0x3382870&gt;</em>, <em>editable=True</em>, <em>serialize=True</em>, <em>unique_for_date=None</em>, <em>unique_for_month=None</em>, <em>unique_for_year=None</em>, <em>choices=None</em>, <em>help_text=''</em>, <em>db_column=None</em>, <em>db_tablespace=None</em>, <em>auto_created=False</em>, <em>validators=</em><span class="optional">[</span><span class="optional">]</span>, <em>error_messages=None</em><big>)</big><a class="reference internal" href="_modules/tinymce/models.html#HTMLField"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.models.HTMLField" title="Permalink to this definition">¶</a></dt>
 <dd><p>A large string field for HTML content. It uses the TinyMCE widget in
 forms.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id3">
-<h3>Views<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>Views<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="module-tinymce.views"></span><dl class="function">
 <dt id="tinymce.views.compressor">
 <tt class="descclassname">tinymce.views.</tt><tt class="descname">compressor</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/tinymce/views.html#compressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#tinymce.views.compressor" title="Permalink to this definition">¶</a></dt>
@@ -305,8 +266,8 @@ parameter.</p>
 </div>
 <div class="section" id="app-userwinparf">
 <h2>App userwinparf<a class="headerlink" href="#app-userwinparf" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id4">
-<h3>Models<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>Models<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="module-userwinparf.models"></span><dl class="class">
 <dt id="userwinparf.models.Userwinparf">
 <em class="property">class </em><tt class="descclassname">userwinparf.models.</tt><tt class="descname">Userwinparf</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="reference internal" href="_modules/userwinparf/models.html#Userwinparf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.models.Userwinparf" title="Permalink to this definition">¶</a></dt>
@@ -314,8 +275,8 @@ parameter.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="id5">
-<h3>Views<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>Views<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <span class="target" id="module-userwinparf.views"></span><dl class="function">
 <dt id="userwinparf.views.LoginRequest">
 <tt class="descclassname">userwinparf.views.</tt><tt class="descname">LoginRequest</tt><big>(</big><em>request</em><big>)</big><a class="reference internal" href="_modules/userwinparf/views.html#LoginRequest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#userwinparf.views.LoginRequest" title="Permalink to this definition">¶</a></dt>
@@ -412,23 +373,24 @@ parameter.</p>
 <li><a class="reference internal" href="#applications">Applications</a><ul>
 <li><a class="reference internal" href="#app-basic">App basic</a><ul>
 <li><a class="reference internal" href="#module-basic.views">Views</a></li>
+<li><a class="reference internal" href="#module-basic.tests">Tests</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#app-forum">App forum</a><ul>
 <li><a class="reference internal" href="#module-forum.views">Models</a></li>
-<li><a class="reference internal" href="#module-forum.views">Tests</a></li>
-<li><a class="reference internal" href="#id1">Views</a></li>
+<li><a class="reference internal" href="#id1">Tests</a></li>
+<li><a class="reference internal" href="#id2">Views</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#app-tinycme">App Tinycme</a><ul>
-<li><a class="reference internal" href="#id2">Models</a></li>
-<li><a class="reference internal" href="#id3">Views</a></li>
+<li><a class="reference internal" href="#id3">Models</a></li>
+<li><a class="reference internal" href="#id4">Views</a></li>
 <li><a class="reference internal" href="#module-tinymce.widgets">Widget</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#app-userwinparf">App userwinparf</a><ul>
-<li><a class="reference internal" href="#id4">Models</a></li>
-<li><a class="reference internal" href="#id5">Views</a></li>
+<li><a class="reference internal" href="#id5">Models</a></li>
+<li><a class="reference internal" href="#id6">Views</a></li>
 <li><a class="reference internal" href="#module-userwinparf.forms">Forms</a></li>
 </ul>
 </li>

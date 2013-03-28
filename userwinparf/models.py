@@ -7,7 +7,7 @@ class Userwinparf(models.Model):
     ''' Define the model of an userwinparf.'''
     user = models.OneToOneField(User)
     name = models.CharField(max_length=100)
-    status = models.CharField(default="regular", max_length=50)
+    can_upload = models.BooleanField(default="regular", max_length=50)
 
 
     def __unicode__(self):
