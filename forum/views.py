@@ -6,8 +6,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.core.context_processors import csrf
+from django.contrib.auth.decorators import login_required
 
 
+@login_required
 def main(request):
     """Main listing."""
      #---------------
@@ -49,6 +51,7 @@ def mk_paginator(request, items, num_items):
     return items
 
 
+@login_required
 def forum(request, pk):
     """Listing of threads in a forum."""
     #---------------
@@ -70,11 +73,12 @@ def forum(request, pk):
     threads = Thread.objects.filter(forum=pk).order_by("-created")
     threads = mk_paginator(request, threads, 20)
     threads_recommanded = Thread.objects.filter(forum=pk).order_by("-nbviews")
-    threads_recommanded = mk_paginator(request, threads_recommanded, 5)
+    threads_recommanded = mk_paginator(request, threads_recommanded, 3)
 
     return render_to_response("forum/forum.html", add_csrf(request, threads=threads, pk=pk, errors=errors, search=search, threads_recommanded=threads_recommanded))
 
 
+@login_required
 def thread(request, pk):
     """Listing of posts in a thread."""
     t=Thread.objects.get(pk=pk)
@@ -87,6 +91,7 @@ def thread(request, pk):
     return render_to_response("forum/thread.html", add_csrf(request, posts=posts, pk=pk, title=t.title, forum_pk=t.forum.pk))
 
 
+@login_required
 def post(request, ptype, pk):
     """Display a post form."""
     action = reverse("forum.views.%s" % ptype, args=[pk])
@@ -99,6 +104,7 @@ def post(request, ptype, pk):
     return render_to_response("forum/post.html", add_csrf(request, subject=subject, action=action, title=title))
 
 
+@login_required
 def new_thread(request, pk):
     """Start a new thread."""
     p = request.POST
@@ -109,6 +115,7 @@ def new_thread(request, pk):
     return HttpResponseRedirect(reverse("forum.views.forum", args=[pk]))
 
 
+@login_required
 def reply(request, pk):
     """Reply to a thread."""
     p = request.POST

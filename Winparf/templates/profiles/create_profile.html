@@ -4,12 +4,12 @@
 {% block content %}
 	<p>	Create your Profile	</p>
 	  {% if form.errors %}
-	    <p class="errorlist">{% trans "Sorry there are corrections needed in your form below:" %} {{ form.non_field_errors }}</p>
+	    <p class="errorlist">Sorry there are corrections needed in your form below:{{ form.non_field_errors }}</p>
 	    {% endif %}
 	    {% if form.is_multipart %}
 	    <form enctype="multipart/form-data" method="post" action=".">
 	    {% else %}
-	    <form method="post" action=".">
+	    <form method="POST" action="."> {% csrf_token %}
 	   {% endif %}
 	   {{ form.as_p }}
 	   <input type="submit" value="Post" />

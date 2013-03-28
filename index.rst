@@ -21,6 +21,12 @@ Views
 .. automodule:: basic.views
     :members:
 
+Tests
+------
+
+.. automodule:: basic.tests
+    :members:
+    
 App forum
 +++++++++++
 

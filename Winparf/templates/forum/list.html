@@ -12,61 +12,11 @@
     {% endfor %}
 {% endif %}
 
-<!-- Results of search bar -->
-{% if search %}    <p>You searched for: <strong>{{ query }}</strong></p>
-
-{% if thread %}
-    <p>Found {{ nb_thread }} thread{{ thread|pluralize }}.</p>
-    <br>
-    <a href='../'> Back to the forum list</a>
-    <div id="list">
-        <table border="1px" bordercolor=white cellpadding="4" width="100%">
-            <b><tr class='evenodd'>
-                <td>Topics</td>
-                <td>Replies</td>
-                <td>Last post</td>
-            </tr></b>
-        {% for thread in thread %}
-        <tr class="{% cycle 'odd' 'even' %}">
-            <td><a href="{% url forum.views.thread thread.pk %}">{{ thread.title }}</a></td>
-            <td {% if forloop.last %}class="last"{% endif %}>{{ thread.num_replies }}</td>
-            <td {% if forloop.last %}class="last"{% endif %}>
-            {{ thread.last_post.short|linebreaksbr }}</td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>
-{% else %}
-    <p>No post matched your search criteria.</p>
-{% endif %}
-<!-- Next/Prev page links  -->
-{% if thread and thread.paginator.num_pages > 1 %}
-<div class="pagination">
-    <span class="step-links">
-        {% if thread.has_previous %}
-            <a href= "?page={{ threads.previous_page_number }}">previous &lt;&lt; </a>
-        {% endif %}
-
-        <span class="current">
-            &nbsp;Page {{ thread.number }} of {{ thread.paginator.num_pages }}
-        </span>
-
-        {% if thread.has_next %}
-            <a href="?page={{ thread.next_page_number }}"> &gt;&gt; next</a>
-        {% endif %}
-    </span>
-</div>
-{% endif %}
-
-
-{% endif %}
-<!-- end of results-->
 <br>
-
-{% if not search %}
 
 <!-- Forums  -->
 <div id="list">
+    <h2>List of Forums</h2>
 <table border="1px" bordercolor=white cellpadding="4" width="100%">
     <tr class='evenodd'>
         <td><b>Choose a dedicated forum</b></td>
@@ -87,6 +37,5 @@
     {% endfor %}
 </table>
 </div>
-{% endif %}
 
 {% endblock %}
